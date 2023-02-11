@@ -2,8 +2,46 @@
 {% block content %}
     <h3>Hey! Doctor Accept These Proposals</h3>
 
+      <table class="table table-striped">
+         <thead>
+    <tr>
+      <th scope="col" class="table-info">Date Applied</th>
+      <th scope="col" class="table-info">Ticket Id</th>
+      <th scope="col" class="table-info">Patient Name</th>
+      <th scope="col" class="table-info">User Name</th>
+      <th scope="col" class="table-info">Remark</th>
+    </tr>
+  </thead>
+  <tbody>
 
+  <h3>Applied certificates status</h3>
+  {% for name in name %}
+    <tr>
+        <td>{{name.date}}</td>
+      <td>{{name.ticketid}}</td>
+      <td>{{name.name}}</td>
+      <td>{{name.username}}</td>
 
-        
+      {% if not name.isverified %}
+      <td>Not Verified</td>
+      {%endif%}
+        {% if name.isverified %}
+      <td>Verified</td>
+      {%endif%}
+
+    </tr>
+  {% endfor %}
+  </tbody>
+      </table>
+<center>
+    <h2>{{doctor}}</h2>
+<form action="/acceptApplication/" method="POST">
+          {% csrf_token %}
+    Enter UserName to be verified : <input type="text" id="username"><br><br>
+    Enter TicketId to be verified : <input type="text" id="ticketid"><br><br>
+    Enter The Doctor Name : <input type="text" id="doctorname"><br><br>
+    <input type="submit" value="verify">
+</form>
+</center>
   
 {% endblock %}

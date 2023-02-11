@@ -1,6 +1,6 @@
 from django.forms import ModelForm
+from .models import CERTIFICATE
 
-from home.models import CERTIFICATE
 class CertificateForm(ModelForm):
     class Meta:
         model = CERTIFICATE
