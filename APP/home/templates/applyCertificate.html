@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-lg-4 mx-auto shadow p-0 pt-4">
+<div class="alert alert-info">
+  <h2>APPLY FOR CERTIFICATE</h2>
+</div>
+<div class="p-4">
+  <form action="/apply/" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <hr>
+    <input type="submit" value="APPLY" class="btn btn-info">
+  </form>
+</div>
+</div>
+
+{% endblock %}
