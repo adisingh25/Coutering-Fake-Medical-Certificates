@@ -10,12 +10,13 @@
     {{form.as_p}}
     <hr>
 
-  <h3>Apply for certificate</h3>
+<!--  <h3>Apply for certificate</h3>-->
     <input type="submit" value="APPLY" class="btn btn-info" id="apply">
   </form>
   <br><br>
   <div>
-    <div><form action="" method="POST">
+    <div>
+      <form action="" method="POST">
           {% csrf_token %}
       <table class="table table-striped">
          <thead>
@@ -53,9 +54,18 @@
   </tbody>
       </table>
       </form>
+
+      <h2> Enter the following details to download the Certificate</h2>
+      <form action ='' method="POST">
+
+          {% csrf_token %}
+        Enter UserId : <input type="text" id="username">
+        <input type="submit" value="submit">
+      </form>
     </div>
   </div>
 </div>
 </div>
+
 
 {% endblock %}

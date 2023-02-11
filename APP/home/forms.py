@@ -4,6 +4,6 @@ from .models import CERTIFICATE
 class CertificateForm(ModelForm):
     class Meta:
         model = CERTIFICATE
-        fields = ['name' , 'address' , 'hospitalName', 'date', 'doctorName']
+        fields = ['name' , 'address' , 'hospitalName', 'date', 'doctorName', 'ticketid']
 
 

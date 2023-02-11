@@ -27,7 +27,11 @@
       {%endif%}
         {% if name.isverified %}
       <td>Verified</td>
+
       {%endif%}
+         <td>
+                <a href="/change-status/{{name.id}}" title="Change Status" class="">Accept</a>
+        </td>
 
     </tr>
   {% endfor %}
@@ -35,7 +39,7 @@
       </table>
 <center>
     <h2>{{doctor}}</h2>
-<form action="/acceptApplication/" method="POST">
+<form action="" method="POST">
           {% csrf_token %}
     Enter UserName to be verified : <input type="text" id="username"><br><br>
     Enter TicketId to be verified : <input type="text" id="ticketid"><br><br>

@@ -2,8 +2,9 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from django.contrib.auth import authenticate , login as login , logout
 from .forms import CertificateForm
-from .models import CERTIFICATE,Doctor
+from .models import CERTIFICATE,Doctor,certificateissue
 from . import models
+from .models import CERTIFICATE
 
 hospital = ''
 
@@ -32,8 +33,6 @@ def doctor(request):
                 all_task = models.CERTIFICATE.objects.filter(doctorName=username)
                 hospital=username
                 context = {'name': all_task,'doctor':username}
-
-
                 return render(request,'acceptApplication.html',context=context)
 
                 #     return redirect('doctor')
@@ -75,10 +74,13 @@ def patient(request):
             if user is not None:
                 login(request,user)
                 # return render(request, 'index.html')
-                if request.method=='POST':
+                if request.method == 'POST':
                     all_task = models.CERTIFICATE.objects.filter(username=user)
                     context = {'name': all_task}
-                return render(request,'applyCertificate.html',context=context)
+                    # if request.method.get('username'):
+                    #     username=request.POST.get('username')
+                    #     all_task=models.certificateissue.objects.filter(username=username)
+            return render(request,'applyCertificate.html',context=context)
         else:
             form1 = AuthenticationForm()
             context = {
@@ -94,7 +96,6 @@ def signup(request):
             "form" : form
         }
         return render(request , 'signup.html' , context=context)
-
     else:
         # print(request.POST)
         form = UserCreationForm(request.POST)  
@@ -119,38 +120,53 @@ def applyCertificate(request):
         print(user)
         form3 = CertificateForm(request.POST)
         if form3.is_valid():
+            print('test 1')
             print(form3.cleaned_data)
             certificate = form3.save(commit=False)
-            certificate.user = user
+            certificate.username = user
+            certificate.isverified = False
+            print('test 2')
+            print(certificate)
             certificate.save()
+            print('test 3')
             print(certificate)
             return redirect("applyCertificate")
         else: 
             return render(request , 'applyCertificate.html' , context={'form' : form3})
 
 def acceptApplication(request):
-     dname=''
-     if request.POST=='POST':
+     if request.method == 'GET':
+         if request.user.is_authenticated:
+             user = request.user
+             print(user)
+             all_task = models.CERTIFICATE.objects.filter(doctorName=user)
+             context = {'name': all_task, 'doctor': user}
+             return render(request, 'acceptApplication.html', context=context)
+     else:
         print("Hello2")
+        print(request.POST)
         doctorname=request.POST.get('doctorname')
-        dname=doctorname
         username = request.POST.get('username')
         ticketid=request.POST.get('ticketid')
-        if models.CERTIFICATE.objects.filter(username=username,ticketid=ticketid).exists():
-            print("Hello")
-            models.CERTIFICATE.objects.filter(username=username, ticketid=ticketid).update(isverified=True)
+        print(ticketid)
+        print(username)
+        # if models.CERTIFICATE.objects.filter(ticketid=ticketid).exists():
+        #     print("Hello")
+        #     models.CERTIFICATE.objects.filter(ticketid=ticketid).update(isverified=True)
+        try:
+            certificate = CERTIFICATE.objects.get(ticketid=ticketid)
+            print('Found the certificate')
+            certificate.isverified = True
+            certificate.save()
+            print(certificate)
+        except:
+            print('Could not find the certificate')
 
-        all_task = models.CERTIFICATE.objects.filter(doctorName=doctorname)
-        context = {'name': all_task, 'doctor':doctorname}
+
+        user = request.user
+        all_task = models.CERTIFICATE.objects.filter(doctorName=user)
+        context = {'name': all_task, 'doctor': user}
         return render(request, 'acceptApplication.html', context=context)
-
-     else:
-        print(dname)
-        all_task = models.CERTIFICATE.objects.filter(doctorName=dname)
-        context = {'name': all_task, 'doctor':dname}
-        return render(request, 'acceptApplication.html', context=context)
-
-
 
 
 
@@ -158,8 +174,12 @@ def signout(request):
     logout(request)
     return redirect('patient')
 
-
-
+def change_status(request, id):
+    print(id)
+    c = CERTIFICATE.objects.get(pk= id)
+    c.isverified = True
+    c.save()
+    return redirect('acceptApplication')
 
 
 

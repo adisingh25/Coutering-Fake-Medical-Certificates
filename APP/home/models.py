@@ -1,6 +1,7 @@
 from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
+# from datetimewidget.widgets import DateTimeWidget
 
 # Create your models here.
 class CERTIFICATE(models.Model):
@@ -10,7 +11,7 @@ class CERTIFICATE(models.Model):
     username = models.ForeignKey(User, on_delete= models.CASCADE)
     date = models.DateTimeField(auto_now_add=False)
     doctorName = models.CharField(max_length=10)
-    ticketid=models.CharField(max_length=100,default=1001)
+    ticketid=models.IntegerField(unique=True)
     isverified = models.BooleanField(default=False)
 
     def __str__(self):
