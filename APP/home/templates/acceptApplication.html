@@ -30,22 +30,11 @@
 
       {%endif%}
          <td>
-                <a href="/change-status/{{name.id}}" title="Change Status" class="">Accept</a>
+                <a href="/change-status/{{name.id}}" title="Change Status" class="btn btn-success">Accept</a>
         </td>
 
     </tr>
   {% endfor %}
   </tbody>
       </table>
-<center>
-    <h2>{{doctor}}</h2>
-<form action="" method="POST">
-          {% csrf_token %}
-    Enter UserName to be verified : <input type="text" id="username"><br><br>
-    Enter TicketId to be verified : <input type="text" id="ticketid"><br><br>
-    Enter The Doctor Name : <input type="text" id="doctorname"><br><br>
-    <input type="submit" value="verify">
-</form>
-</center>
-  
 {% endblock %}

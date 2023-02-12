@@ -1,60 +1,78 @@
-<!doctype html>
-<html ng-app="ui.bootstrap.demo">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<style>
-	@media print {
-		body * {
-			visibility: hidden;
-		}
-		.modal-content * {
-			visibility: visible;
-			overflow: visible;
-		}
-		.main-page * {
-			display: none;
-		}
-		.modal {
-			position: absolute;
-			left: 0;
-			top: 0;
-			margin: 0;
-			padding: 0;
-			min-height: 550px;
-			visibility: visible;
-			overflow: visible !important; /* Remove scrollbar for printing. */
-		}
-		.modal-dialog {
-			visibility: visible !important;
-			overflow: visible !important; /* Remove scrollbar for printing. */
-		}
-	}
-	</style>
+    <meta charset="UTF-8">
+    <title>home</title>
+  <style>
+    @media print {
+  .noPrint{
+    display:none;
+  }
+}
+h1{
+  color:#f6f6;
+}
+  </style>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
 </head>
 <body>
-<div>
-	<h1>id : it will be taken from the blockchain network</h1><br><br>
-</div>
-		<div class="container main-page">
-			<a href="#" class="btn btn-default" data-toggle="modal" data-target="#myModal">View your certificate</a>
-				{% for name in name %}
-<div>
-			<ul><br><br>
-				Name : {{name.name}}<br><br>
-				slip number : {{name.slipno}}<br><br>
-				Doctor Name: {{name.docname}}<br><br>
-				Blood Group : {{name.bloodgp}}<br><br>
-				Height : {{name.height}}<br><br>
-				Weight : {{name.weight}}<br><br>
-				Problem : {{name.problem}}<br><br>
-				nextvisitafter :{{name.visitafter}}<br><br>
-				HospitalName :{{name.hospitalName}}
-			</ul>
-</div>
-				{% endfor %}
 
-		</div>
+  <div class="container pt-4">
+        <div class="col-lg-4 mx-auto shadow p-0 mt-4">
+            <div class="alert alert-info">
+               <h1>
+    Certificate
+  </h1>
+
+            </div>
+            <div class="p-4">
+ <div>
+Certificate ID : {{x}}<br><br>
+  </div>
+
+<div>
+    Name : {{name.name}}<br><br>
+  </div>
+
+  <div>
+    Date : {{name.datetime}}<br><br>
+  </div>
+  <div>
+    Slip Number : {{name.slipno}}<br><br>
+  </div>
+  <div>
+    Doctor Name : {{name.docname}}<br><br>
+  </div>
+  <div>
+    Blood Group : {{name.bloodgp}}<br><br>
+  </div>
+<div>
+    Problem of Patient : {{name.problem }}<br><br>
+  </div>
+<div>
+    Height  : {{name.height }}<br><br>
+  </div>
+<div>
+    Weight  : {{name.weight }}<br><br>
+  </div>
+
+<div>
+    Kindly visit the doctor after : {{name.nextvisitafter  }}<br><br>
+  </div>
+
+  <div>
+    Hospital Name : {{name.HospitalName}}<br><br>
+  </div>
+<button onclick="window.print();" class="noPrint">
+ PRINT
+</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
 </body>
 </html>

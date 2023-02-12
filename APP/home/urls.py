@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.shortcuts import render,HttpResponse,redirect
-from .views import home,doctor,patient,signup,applyCertificate,signout,acceptApplication,change_status
+from .views import home,doctor,patient,signup,applyCertificate,signout,acceptApplication,change_status,download
 
 urlpatterns = [ 
    path('', home, name='home'),
@@ -11,6 +11,6 @@ urlpatterns = [
    path('apply/',applyCertificate,name='applyCertificate'),
    path('acceptApplication/', acceptApplication, name='acceptApplication'),
    path('change-status/<int:id>', change_status),
-
+   path('download/',download),
    path('logout/', signout),
 ]
