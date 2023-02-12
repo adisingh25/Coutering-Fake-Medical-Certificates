@@ -1,14 +1,16 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from django.contrib.auth import authenticate , login as login , logout
-from .forms import CertificateForm
+from .forms import CertificateForm,downloadForm
 from .models import CERTIFICATE,Doctor,certificateissue
 from . import models
-from .models import CERTIFICATE
+from .models import CERTIFICATE,certificateissue
+from .models import certificateissue
+import uuid
+from . import web3
 
 hospital = ''
 
-# Create your views here.
 def home(request):
     return render(request, 'index.html')
 
@@ -34,20 +36,6 @@ def doctor(request):
                 hospital=username
                 context = {'name': all_task,'doctor':username}
                 return render(request,'acceptApplication.html',context=context)
-
-                #     return redirect('doctor')
-                # else:
-                #     print('failed')
-                #
-                # if request.POST=='POST':
-                #     print("Hello2")
-                #     username = request.POST.get('username')
-                #     ticketid=request.POST.get('ticketid')
-                #     if models.CERTIFICATE.objects.filter(username=username,ticketid=ticketid).exists():
-                #         print("Hello")
-                #         models.CERTIFICATE.objects.filter(username=username, ticketid=ticketid).update(isverified=True)
-                #
-            # return render(request, 'acceptApplication.html',context=context)
             
         else:
             form1 = AuthenticationForm()
@@ -77,9 +65,6 @@ def patient(request):
                 if request.method == 'POST':
                     all_task = models.CERTIFICATE.objects.filter(username=user)
                     context = {'name': all_task}
-                    # if request.method.get('username'):
-                    #     username=request.POST.get('username')
-                    #     all_task=models.certificateissue.objects.filter(username=username)
             return render(request,'applyCertificate.html',context=context)
         else:
             form1 = AuthenticationForm()
@@ -150,9 +135,6 @@ def acceptApplication(request):
         ticketid=request.POST.get('ticketid')
         print(ticketid)
         print(username)
-        # if models.CERTIFICATE.objects.filter(ticketid=ticketid).exists():
-        #     print("Hello")
-        #     models.CERTIFICATE.objects.filter(ticketid=ticketid).update(isverified=True)
         try:
             certificate = CERTIFICATE.objects.get(ticketid=ticketid)
             print('Found the certificate')
@@ -181,15 +163,39 @@ def change_status(request, id):
     c.save()
     return redirect('acceptApplication')
 
+def download(request):
+    if(request.method=='GET'):
+        form5 = downloadForm()
+        context = {
+            "form" : form5
+        }
+        return render(request, 'download.html', context=context)
+    else:
+        form3 = downloadForm(request.POST)
+        if form3.is_valid():
+            print('test 1')
+            print(form3.cleaned_data)
+            downloadedForm = form3.save(commit=False)
+            print('test 2')
+            print(downloadedForm)
+            id=downloadedForm.slip_id
+            print(id , 'is is ')
+            # downloadedForm.save()
+            print('test 3')
+            x = str(uuid.uuid1())
+            x = str(x[0:10])
+            c = certificateissue.objects.get(slipno=id)
+            z=web3.Check3(id)
+            if z!='0':
+                x=z
+            else:
+                web3.MedicalCertificate(str(id),str(x),str(c.docname),str(c.bloodgp),str(c.username),str(c.name),str(c.datetime),str(c.HospitalName))
 
-
-
-
-
-
-
-
-
-
-
-
+            context = {'name': c,'x':x}
+            return render(request, 'downloadcertificate.html', context=context)
+        else:
+            form5 = downloadForm()
+            context = {
+                "form": form5
+            }
+            return render(request, 'download.html', context=context)
