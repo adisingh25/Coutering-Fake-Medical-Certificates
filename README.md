@@ -1,4 +1,4 @@
-# TRINIT_MARTIANS_WEB3_WEB02
+# Coutering-Fake-Medical-Certificates
 A Django Application , with Ethereum as Blockchain Networks which helps in eliminating Fake Medical Certificates.
 
 Asking for a medical certificate is the most common practice among organizations when employees avail their medical leaves. 
